@@ -1,6 +1,7 @@
 package com.cloudbees.groovy.cps;
 
 import com.cloudbees.groovy.cps.impl.CpsClosure;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import groovy.lang.Closure;
 import org.codehaus.groovy.ast.ClassNode;
 
@@ -17,6 +18,7 @@ public class TransformerConfiguration {
     private ClassNode closureType = new ClassNode(CpsClosure.class);
     private List<Safepoint> safepoints = new ArrayList<Safepoint>();
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "annoying warning")
     public ClassNode getClosureType() {
         return closureType;
     }
@@ -25,6 +27,7 @@ public class TransformerConfiguration {
         return safepoints;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "annoying warning")
     public TransformerConfiguration withClosureType(ClassNode closureType) {
         this.closureType = closureType;
         return this;

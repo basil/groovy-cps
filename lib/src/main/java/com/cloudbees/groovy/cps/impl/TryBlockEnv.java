@@ -5,7 +5,7 @@ import com.cloudbees.groovy.cps.Continuation;
 import com.cloudbees.groovy.cps.Env;
 import com.cloudbees.groovy.cps.Next;
 
-import javax.annotation.Nullable;
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;

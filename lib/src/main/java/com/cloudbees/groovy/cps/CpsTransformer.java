@@ -5,6 +5,8 @@ import com.cloudbees.groovy.cps.impl.CpsFunction;
 import com.cloudbees.groovy.cps.sandbox.Trusted;
 import com.cloudbees.groovy.cps.sandbox.Untrusted;
 import com.google.common.annotations.VisibleForTesting;
+import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
@@ -20,7 +22,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Nonnull;
 import org.codehaus.groovy.ast.*;
 import org.codehaus.groovy.ast.expr.*;
 import org.codehaus.groovy.ast.stmt.*;
@@ -115,11 +116,12 @@ public class CpsTransformer extends CompilationCustomizer implements GroovyCodeV
         super(CompilePhase.CANONICALIZATION);
     }
 
-    public void setConfiguration(@Nonnull TransformerConfiguration config) {
+    public void setConfiguration(@NonNull TransformerConfiguration config) {
         this.config = config;
     }
 
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "annoying warning")
     public void call(SourceUnit source, GeneratorContext context, ClassNode classNode) {
         if (classNode.isInterface()) {
             return; // not touching interfaces

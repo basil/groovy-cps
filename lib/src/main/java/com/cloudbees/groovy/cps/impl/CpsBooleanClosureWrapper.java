@@ -1,5 +1,6 @@
 package com.cloudbees.groovy.cps.impl;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import groovy.lang.Closure;
 import org.codehaus.groovy.runtime.callsite.BooleanClosureWrapper;
 import org.codehaus.groovy.runtime.callsite.BooleanReturningMethodInvoker;
@@ -15,6 +16,7 @@ import java.util.Map;
 public class CpsBooleanClosureWrapper implements Serializable {
     private final Closure wrapped;
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "annoying warning")
     public CpsBooleanClosureWrapper(Closure wrapped) {
         this.wrapped = wrapped;
     }

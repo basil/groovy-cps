@@ -6,6 +6,7 @@ import com.cloudbees.groovy.cps.impl.SuspendBlock;
 import com.cloudbees.groovy.cps.impl.ThrowBlock;
 import com.cloudbees.groovy.cps.sandbox.Invoker;
 import com.google.common.base.Function;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
@@ -66,6 +67,7 @@ public class Continuable implements Serializable {
     /**
      * Creates a {@link Continuable} that executes the block in the specified environment.
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "annoying warning")
     public Continuable(Block block, Env e) {
         this.e = e;
         this.k = new Next(block,e,Continuation.HALT);

@@ -1,5 +1,7 @@
 package com.cloudbees.groovy.cps;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -13,6 +15,7 @@ import java.io.ObjectStreamClass;
 public class ObjectInputStreamWithLoader extends ObjectInputStream {
     private final ClassLoader cl;
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "annoying warning")
     public ObjectInputStreamWithLoader(InputStream in, ClassLoader cl) throws IOException {
         super(in);
         this.cl = cl;

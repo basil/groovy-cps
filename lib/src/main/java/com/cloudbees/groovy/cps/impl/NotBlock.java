@@ -4,6 +4,7 @@ import com.cloudbees.groovy.cps.Block;
 import com.cloudbees.groovy.cps.Continuation;
 import com.cloudbees.groovy.cps.Env;
 import com.cloudbees.groovy.cps.Next;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.codehaus.groovy.runtime.typehandling.DefaultTypeTransformation;
 
 /**
@@ -19,6 +20,7 @@ public class NotBlock implements Block {
     }
 
     @Override
+    @SuppressFBWarnings(value = "DLS_DEAD_LOCAL_STORE", justification = "annoying warning")
     public Next eval(final Env e, final Continuation k) {
         // Only exists to maintain compatibility with classes serialized before ContinuationImpl was introduced.
         Continuation backwardsCompatibility = new Continuation() {

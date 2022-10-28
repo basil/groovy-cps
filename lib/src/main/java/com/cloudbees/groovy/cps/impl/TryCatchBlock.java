@@ -5,6 +5,7 @@ import com.cloudbees.groovy.cps.CatchExpression;
 import com.cloudbees.groovy.cps.Continuation;
 import com.cloudbees.groovy.cps.Env;
 import com.cloudbees.groovy.cps.Next;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,6 +18,7 @@ public class TryCatchBlock implements Block {
     private final Block body;
     private final Block finally_;
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "annoying warning")
     public TryCatchBlock(List<CatchExpression> catches, Block body, Block finally_) {
         this.catches = catches;
         this.body = body;

@@ -3,6 +3,7 @@ package com.cloudbees.groovy.cps;
 import com.cloudbees.groovy.cps.impl.ConstantBlock;
 import com.cloudbees.groovy.cps.impl.SourceLocation;
 import com.cloudbees.groovy.cps.impl.ThrowBlock;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -17,6 +18,7 @@ import static com.cloudbees.groovy.cps.impl.SourceLocation.UNKNOWN;
  *
  * @author Kohsuke Kawaguchi
  */
+@SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "annoying warning")
 public final class Outcome implements Serializable {
     private final Object normal;
     private final Throwable abnormal;
@@ -48,6 +50,7 @@ public final class Outcome implements Serializable {
         return normal;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "annoying warning")
     public Throwable getAbnormal() {
         return abnormal;
     }

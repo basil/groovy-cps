@@ -4,6 +4,7 @@ import com.cloudbees.groovy.cps.Block;
 import com.cloudbees.groovy.cps.Continuation;
 import com.cloudbees.groovy.cps.Env;
 import com.cloudbees.groovy.cps.Next;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.lang.reflect.Constructor;
 import java.util.List;
@@ -21,6 +22,7 @@ public class ClosureBlock implements Block {
     private final Class<? extends CpsClosure> closureType;
     private final SourceLocation loc;
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "annoying warning")
     public ClosureBlock(SourceLocation loc, List<Class> parameterTypes, List<String> parameters, Block body, Class<? extends CpsClosure> closureType) {
         this.loc = loc;
         this.parameterTypes = parameterTypes;

@@ -5,6 +5,7 @@ import com.cloudbees.groovy.cps.CaseExpression;
 import com.cloudbees.groovy.cps.Continuation;
 import com.cloudbees.groovy.cps.Env;
 import com.cloudbees.groovy.cps.Next;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.codehaus.groovy.runtime.ScriptBytecodeAdapter;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class SwitchBlock implements Block {
      */
     final Block default_;
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "annoying warning")
     public SwitchBlock(String label, Block exp, Block default_, List<CaseExpression> cases) {
         this.label = label;
         this.exp = exp;
@@ -98,7 +100,7 @@ public class SwitchBlock implements Block {
         /**
          * Executes the body and falls through to the next body.
          */
-        public Next body(Object _) {
+        public Next body(Object unused) {
             if (index==cases.size()) {
                 // that was the last block
                 return k.receive(null);

@@ -1,6 +1,7 @@
 package com.cloudbees.groovy.cps.tool;
 
 import com.sun.codemodel.writer.FileCodeWriter;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import groovy.lang.GroovyShell;
 import hudson.remoting.Which;
 
@@ -12,6 +13,7 @@ import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
 import java.io.File;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,6 +23,7 @@ import java.util.Locale;
 import static java.util.Arrays.*;
 
 public class Driver {
+    @SuppressFBWarnings(value = "PATH_TRAVERSAL_IN", justification = "we want the user to be able to specify a path")
     public static void main(String[] args) throws Exception {
         new Driver().run(new File(args[0]));
     }
@@ -68,7 +71,7 @@ public class Driver {
             }
 
 
-            dir.mkdirs();
+            Files.createDirectories(dir.toPath());
             t.generateTo(new FileCodeWriter(dir));
         }
     }

@@ -5,12 +5,14 @@ import com.cloudbees.groovy.cps.Env;
 import com.cloudbees.groovy.cps.LValue;
 import com.cloudbees.groovy.cps.LValueBlock;
 import com.cloudbees.groovy.cps.Next;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Access to local variables and method parameters.
  *
  * @author Kohsuke Kawaguchi
  */
+@SuppressFBWarnings(value = "UWF_UNWRITTEN_FIELD", justification = "TODO needs triage")
 public class LocalVariableBlock extends LValueBlock {
     private final String name;
     private SourceLocation loc;

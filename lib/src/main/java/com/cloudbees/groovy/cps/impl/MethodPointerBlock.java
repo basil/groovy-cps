@@ -7,9 +7,10 @@ import com.cloudbees.groovy.cps.Next;
 import com.cloudbees.groovy.cps.sandbox.CallSiteTag;
 import com.cloudbees.groovy.cps.sandbox.Invoker;
 import org.codehaus.groovy.runtime.InvokerHelper;
+import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.codehaus.groovy.runtime.MethodClosure;
 
-import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -24,6 +25,7 @@ public class MethodPointerBlock implements CallSiteBlock {
     private final Block methodNameExp;
     private final Collection<CallSiteTag> tags; // can be null for instances deserialized from the old form
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "annoying warning")
     public MethodPointerBlock(SourceLocation loc, Block lhsExp, Block methodNameExp, Collection<CallSiteTag> tags) {
         this.loc = loc;
         this.lhsExp = lhsExp;
@@ -31,7 +33,7 @@ public class MethodPointerBlock implements CallSiteBlock {
         this.tags = tags;
     }
 
-    @Nonnull
+    @NonNull
     @Override
     public Collection<CallSiteTag> getTags() {
         return tags !=null ? Collections.unmodifiableCollection(tags) : Collections.<CallSiteTag>emptySet();

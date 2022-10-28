@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
@@ -13,103 +14,113 @@
 
   <build>
     <plugins>
-        <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-                <source>1.8</source>
-                <target>1.8</target>
-            </configuration>
-        </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>properties</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
-        <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.6.0</version>
-            <executions>
-                <execution>
-                    <phase>generate-sources</phase>
-                    <goals>
-                        <goal>exec</goal>
-                    </goals>
-                    <configuration>
-                        <sourceRoot>${project.build.directory}/generated-sources/dgm</sourceRoot>
-                        <executable>java</executable>
-                        <arguments>
-                            <argument>-jar</argument>
-                            <argument>${com.cloudbees:groovy-cps-dgm-builder:jar:jar-with-dependencies}</argument>
-                            <argument>${project.build.directory}/generated-sources/dgm</argument>
-                        </arguments>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
+      <!-- TODO removing this results in NotBlockTest.serialFormBackwardsCompatibility:38 » InvalidClass com.cloudbees.groovy.cps.Continuation$Halt; local class incompatible: stream classdesc serialVersionUID = 1996175119530893094, local class serialVersionUID = 8436532706603657532 -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <dependencies>
-          <dependency>
-            <groupId>org.kohsuke</groupId>
-            <artifactId>doxia-module-markdown</artifactId>
-            <version>1.0</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.20</version>
+        <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <trimStackTrace>false</trimStackTrace> <!-- SUREFIRE-1226 workaround -->
+          <source>1.8</source>
+          <target>1.8</target>
+          <testSource>1.8</testSource>
+          <testTarget>1.8</testTarget>
+          <release combine.self="override" />
+          <testRelease combine.self="override" />
         </configuration>
       </plugin>
-        <plugin>
-            <artifactId>maven-jar-plugin</artifactId>
-            <executions>
-                <execution>
-                    <id>test-jar</id>
-                    <goals>
-                        <goal>test-jar</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>properties</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>test-jar</id>
+            <goals>
+              <goal>test-jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- TODO remove when this plugin is compiled with Java 11 -->
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <release combine.self="override" />
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <phase>generate-sources</phase>
+            <configuration>
+              <sourceRoot>${project.build.directory}/generated-sources/dgm</sourceRoot>
+              <executable>java</executable>
+              <arguments>
+                <argument>-jar</argument>
+                <argument>${com.cloudbees:groovy-cps-dgm-builder:jar:jar-with-dependencies}</argument>
+                <argument>${project.build.directory}/generated-sources/dgm</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
   <properties>
-      <groovy-sandbox.version>1.30</groovy-sandbox.version>
+    <groovy-sandbox.version>1.30</groovy-sandbox.version>
   </properties>
+
   <dependencies>
     <dependency>
-      <groupId>com.cloudbees</groupId>
-      <artifactId>groovy-cps-dgm-builder</artifactId>
-      <version>${project.version}</version>
-      <classifier>jar-with-dependencies</classifier>
-      <scope>runtime</scope> <!-- somehow provide to dependency:properties without actually adding to CP -->
+      <groupId>com.github.spotbugs</groupId>
+      <artifactId>spotbugs-annotations</artifactId>
       <optional>true</optional>
+      <exclusions>
+        <exclusion>
+          <groupId>com.google.code.findbugs</groupId>
+          <artifactId>jsr305</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>31.1-jre</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.google.errorprone</groupId>
+          <artifactId>error_prone_annotations</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.google.j2objc</groupId>
+          <artifactId>j2objc-annotations</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.checkerframework</groupId>
+          <artifactId>checker-qual</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.kohsuke</groupId>
       <artifactId>groovy-sandbox</artifactId>
       <version>${groovy-sandbox.version}</version>
       <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.kohsuke</groupId>
-      <artifactId>groovy-sandbox</artifactId>
-      <version>${groovy-sandbox.version}</version>
-      <classifier>tests</classifier>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
@@ -122,48 +133,43 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>com.cloudbees</groupId>
+      <artifactId>groovy-cps-dgm-builder</artifactId>
+      <version>${project.version}</version>
+      <classifier>jar-with-dependencies</classifier>
+      <scope>runtime</scope>
+      <!-- somehow provide to dependency:properties without actually adding to CP -->
+      <optional>true</optional>
+    </dependency>
+    <dependency>
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy-test</artifactId>
       <version>${groovy.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>11.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.1</version>
+      <groupId>org.jenkins-ci</groupId>
+      <artifactId>test-annotations</artifactId>
+      <version>1.4</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.jenkins-ci</groupId>
-      <artifactId>test-annotations</artifactId>
-      <version>1.2</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.kohsuke</groupId>
+      <artifactId>groovy-sandbox</artifactId>
+      <version>${groovy-sandbox.version}</version>
+      <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
   </dependencies>
 
-    <profiles>
-        <profile>
-            <id>cloudbees-oss-release</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-test-sources</id>
-                                <goals>
-                                    <goal>test-jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>

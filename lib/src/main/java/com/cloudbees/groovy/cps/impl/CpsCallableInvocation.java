@@ -5,12 +5,13 @@ import com.cloudbees.groovy.cps.Continuation;
 import com.cloudbees.groovy.cps.Env;
 import com.cloudbees.groovy.cps.Next;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 import java.util.List;
 
 import static java.util.Arrays.*;
 import java.util.Collections;
 import java.util.Map;
-import javax.annotation.CheckForNull;
 
 import groovy.lang.Closure;
 import groovy.lang.GroovyObject;

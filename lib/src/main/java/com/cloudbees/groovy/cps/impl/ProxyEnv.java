@@ -4,6 +4,7 @@ import com.cloudbees.groovy.cps.Continuation;
 import com.cloudbees.groovy.cps.DepthTrackingEnv;
 import com.cloudbees.groovy.cps.Env;
 import com.cloudbees.groovy.cps.sandbox.Invoker;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class ProxyEnv implements DepthTrackingEnv {
 
     int depth = 0;
 
+    @SuppressFBWarnings(value = {"DLS_DEAD_LOCAL_STORE", "EI_EXPOSE_REP2"}, justification = "annoying warnings")
     public ProxyEnv(Env parent) {
         this.parent = parent;
         depth = (parent instanceof DepthTrackingEnv) ? ((DepthTrackingEnv) parent).getDepth(): 0;

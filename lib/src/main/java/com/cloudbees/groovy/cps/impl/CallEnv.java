@@ -7,7 +7,7 @@ import com.cloudbees.groovy.cps.Next;
 import com.cloudbees.groovy.cps.sandbox.Invoker;
 import com.google.common.collect.Maps;
 
-import javax.annotation.Nullable;
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;

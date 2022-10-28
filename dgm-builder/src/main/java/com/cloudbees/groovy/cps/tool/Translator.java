@@ -56,6 +56,7 @@ import com.sun.source.util.JavacTask;
 import com.sun.source.util.SimpleTreeVisitor;
 import com.sun.source.util.Trees;
 import com.sun.source.util.TreePath;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import groovy.lang.Closure;
 
 import javax.lang.model.element.Element;
@@ -137,6 +138,7 @@ public class Translator {
     /**
      * Parse the source code and prepare for translations.
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "annoying warning")
     public Translator(CompilationTask task) throws IOException {
         this.javac = (JavacTask)task;
 
